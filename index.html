@@ -537,10 +537,17 @@ document.querySelectorAll('.model').forEach(el=>{
   const row=document.getElementById('tk5'),msg=document.getElementById('gomsg'),tr=document.getElementById('gotrain');
   row.classList.remove('nonav');
   const t=[...row.children];
-  row.closest('.slide')._st={n:t.length,render(k,anim){
-    t.forEach((x,i)=>x.classList.toggle('slot',i>=k));
-    const all=k===t.length;msg.classList.toggle('show',all);
-    if(all&&anim){tr.classList.add('go');chooChoo();}else{stopChoo();tr.style.transition='none';tr.classList.remove('go');tr.offsetWidth;tr.style.transition='';}
+  row.closest('.slide')._st={n:1,render(k,anim){
+    const depart=()=>{msg.classList.add('show');tr.classList.add('go');chooChoo();};
+    const reset=()=>{stopChoo();msg.classList.remove('show');tr.style.transition='none';tr.classList.remove('go');tr.offsetWidth;tr.style.transition='';};
+    reset();
+    t.forEach((x,i)=>{
+      x.classList.add('slot');
+      if(k<1)return;
+      const f=()=>x.classList.remove('slot');
+      anim?later(f,450*i):f();
+    });
+    if(k>=1){anim?later(depart,450*t.length+200):msg.classList.add('show');}
   }};
 })();
 document.querySelectorAll('.slide').forEach(sl=>{
