@@ -441,7 +441,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .sec div.chg{animation:seatChg .5s ease}
 .kt5 svg{transition:fill .35s,stroke .35s}.kt5:not(.slot){animation:popIn .4s ease both}
 @media (prefers-reduced-motion:reduce){.slide.on,.slide.leaving,.cap3.chg,.tbw .an.shown,.m-eq .ans:not(:empty),.sec div.chg,.kt5:not(.slot){animation:none!important}}
-</style><style>.model.rem .seat.full:not(.gone) svg{stroke-width:6}.model.rem .seat.full.t:not(.gone) svg{fill:#7d9be6;stroke:#1b3889}.model.rem .seat.full.o:not(.gone) svg{fill:#e9b73a;stroke:#7a5500}.model.rem .seat.full:not(.gone){animation:popIn .45s ease both}</style><style>@keyframes seatOut{0%{opacity:1;transform:none}45%{opacity:.15;transform:translateY(10px) scale(.9)}100%{opacity:1;transform:none}}.model .seat.chg{animation:seatOut .65s cubic-bezier(.4,0,.2,1)}.model .seat svg{transition:fill .4s ease .2s,stroke .4s ease .2s}@keyframes boxIn{from{transform:scale(.4);opacity:.3}to{transform:none;opacity:1}}.m-foot .boxes i.nw{animation:boxIn .35s ease both}@media (prefers-reduced-motion:reduce){.model .seat.chg,.m-foot .boxes i.nw{animation:none}}</style></head>
+</style><style>.model.rem .seat.full:not(.gone) svg{stroke-width:6}.model.rem .seat.full.t:not(.gone) svg{fill:#7d9be6;stroke:#1b3889}.model.rem .seat.full.o:not(.gone) svg{fill:#e9b73a;stroke:#7a5500}.model.rem .seat.full:not(.gone){animation:popIn .45s ease both}</style><style>@keyframes seatOut{0%{opacity:1;transform:none}45%{opacity:.15;transform:translateY(10px) scale(.9)}100%{opacity:1;transform:none}}.model .seat.chg{animation:seatOut .65s cubic-bezier(.4,0,.2,1)}.model .seat svg{transition:fill .4s ease .2s,stroke .4s ease .2s}@keyframes boxIn{from{transform:scale(.4);opacity:.3}to{transform:none;opacity:1}}.m-foot .boxes i.nw{animation:boxIn .35s ease both}@media (prefers-reduced-motion:reduce){.model .seat.chg,.m-foot .boxes i.nw{animation:none}}</style><style>.gq .gt{transition:none!important}.stage.quick .slide.on{animation:none}@keyframes onlyFade{from{opacity:0}to{opacity:1}}.stage.quick .slide.on .geq{animation:onlyFade .45s ease both}.gq .s1{transition:opacity .4s ease,visibility .4s}</style></head>
 <body>
 <svg width="0" height="0" style="position:absolute"><symbol id="seatS" viewBox="0 0 70 64"><path d="M4 8A5 5 0 0 1 14 8V14H56V8A5 5 0 0 1 66 8V48Q66 60 54 60H16Q4 60 4 48Z"/><path fill="none" d="M14 14V44Q14 52 22 52H48Q56 52 56 44V14"/></symbol></svg>
 <div class="stage" id="stage">
@@ -614,7 +614,8 @@ function show(n){
   const prevI=cur;
   cur=Math.max(0,Math.min(slides.length-1,n));
   slides.forEach(s=>s.classList.remove('leaving'));
-  if(prevI!==cur&&slides[prevI]){stage.style.setProperty('--dx',(cur>prevI?36:-36)+'px');slides[prevI].classList.add('leaving');clearTimeout(leaveTimer);leaveTimer=setTimeout(()=>slides.forEach(s=>s.classList.remove('leaving')),520);}
+  const same=slides[prevI]&&slides[prevI].classList.contains('gq')&&slides[cur].classList.contains('gq');stage.classList.toggle('quick',!!same);
+  if(prevI!==cur&&slides[prevI]&&!same){stage.style.setProperty('--dx',(cur>prevI?36:-36)+'px');slides[prevI].classList.add('leaving');clearTimeout(leaveTimer);leaveTimer=setTimeout(()=>slides.forEach(s=>s.classList.remove('leaving')),520);}
   slides.forEach((s,i)=>s.classList.toggle('on',i===cur));
   history.replaceState(null,'','#'+(cur+1));
 }
